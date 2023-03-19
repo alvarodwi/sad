@@ -1,6 +1,5 @@
 package me.varoa.sad.ui.screen.story.detail
 
-import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
@@ -17,13 +16,11 @@ class DetailStoryFragment : BaseFragment(R.layout.fragment_detail_story) {
     private val binding by viewBinding<FragmentDetailStoryBinding>()
     private val args by navArgs<DetailStoryFragmentArgs>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun bindView() {
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
-    }
+        postponeEnterTransition()
 
-    override fun bindView() {
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.tvDetailName.transitionName = "name-${args.story.id}"
         binding.ivDetailPhoto.transitionName = "photo-${args.story.id}"
@@ -43,6 +40,14 @@ class DetailStoryFragment : BaseFragment(R.layout.fragment_detail_story) {
                 .data(story.photoUrl)
                 .target(this)
                 .allowHardware(true)
+                .listener(
+                    onSuccess = { _, _ ->
+                        startPostponedEnterTransition()
+                    },
+                    onError = { _, _ ->
+                        startPostponedEnterTransition()
+                    }
+                )
                 .build()
             imageLoader.enqueue(imgData)
         }

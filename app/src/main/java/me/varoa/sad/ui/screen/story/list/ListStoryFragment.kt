@@ -70,6 +70,11 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
                 header = GenericLoadStateAdapter(storyAdapter::retry),
                 footer = GenericLoadStateAdapter(storyAdapter::retry)
             )
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         }
 
         // collecting flow into recyclerview
