@@ -14,80 +14,80 @@ import kotlin.reflect.KProperty
 
 // from https://medium.com/@hoc081098/viewbinding-delegate-one-line-4d0cdcbf53ba
 class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
-  private val fragment: Fragment,
-  viewBindingBind: ((View) -> T)? = null,
-  viewBindingClazz: Class<T>? = null
+    private val fragment: Fragment,
+    viewBindingBind: ((View) -> T)? = null,
+    viewBindingClazz: Class<T>? = null
 ) : ReadOnlyProperty<Fragment, T> {
 
-  private var binding: T? = null
-  private val bind = viewBindingBind ?: { view: View ->
-    @Suppress("UNCHECKED_CAST")
-    GetBindMethod(viewBindingClazz!!)(null, view) as T
-  }
-
-  init {
-    ensureMainThread()
-    require(viewBindingBind != null || viewBindingClazz != null) {
-      "Both viewBindingBind and viewBindingClazz are null. Please provide at least one."
+    private var binding: T? = null
+    private val bind = viewBindingBind ?: { view: View ->
+        @Suppress("UNCHECKED_CAST")
+        GetBindMethod(viewBindingClazz!!)(null, view) as T
     }
 
-    fragment.lifecycle.addObserver(FragmentLifecycleObserver())
-  }
+    init {
+        ensureMainThread()
+        require(viewBindingBind != null || viewBindingClazz != null) {
+            "Both viewBindingBind and viewBindingClazz are null. Please provide at least one."
+        }
 
-  override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-    binding?.let { return it }
-
-    check(
-      fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(
-        Lifecycle.State.INITIALIZED
-      )
-    ) {
-      "Attempt to get view binding when fragment view is destroyed"
+        fragment.lifecycle.addObserver(FragmentLifecycleObserver())
     }
 
-    return bind(thisRef.requireView()).also { binding = it }
-  }
+    override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+        binding?.let { return it }
 
-  private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    override fun onCreate(owner: LifecycleOwner) {
-      fragment.viewLifecycleOwnerLiveData
-        .observe(fragment) { viewLifecycleOwner: LifecycleOwner? ->
-          viewLifecycleOwner ?: return@observe
+        check(
+            fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(
+                Lifecycle.State.INITIALIZED
+            )
+        ) {
+            "Attempt to get view binding when fragment view is destroyed"
+        }
 
-          val viewLifecycleObserver = object : DefaultLifecycleObserver {
-            override fun onDestroy(owner: LifecycleOwner) {
-              viewLifecycleOwner.lifecycle.removeObserver(this)
-              MainHandler.post {
-                binding = null
-              }
-            }
-          }
+        return bind(thisRef.requireView()).also { binding = it }
+    }
 
-          viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
+    private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            fragment.viewLifecycleOwnerLiveData
+                .observe(fragment) { viewLifecycleOwner: LifecycleOwner? ->
+                    viewLifecycleOwner ?: return@observe
+
+                    val viewLifecycleObserver = object : DefaultLifecycleObserver {
+                        override fun onDestroy(owner: LifecycleOwner) {
+                            viewLifecycleOwner.lifecycle.removeObserver(this)
+                            MainHandler.post {
+                                binding = null
+                            }
+                        }
+                    }
+
+                    viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
+                }
+        }
+
+        override fun onDestroy(owner: LifecycleOwner) {
+            fragment.lifecycle.removeObserver(this)
+            binding = null
         }
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-      fragment.lifecycle.removeObserver(this)
-      binding = null
+    companion object Factory {
+        fun <T : ViewBinding> from(
+            fragment: Fragment,
+            viewBindingBind: (View) -> T
+        ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
+            fragment = fragment,
+            viewBindingBind = viewBindingBind
+        )
+
+        fun <T : ViewBinding> from(
+            fragment: Fragment,
+            viewBindingClazz: Class<T>
+        ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
+            fragment = fragment,
+            viewBindingClazz = viewBindingClazz
+        )
     }
-  }
-
-  companion object Factory {
-    fun <T : ViewBinding> from(
-      fragment: Fragment,
-      viewBindingBind: (View) -> T
-    ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
-      fragment = fragment,
-      viewBindingBind = viewBindingBind
-    )
-
-    fun <T : ViewBinding> from(
-      fragment: Fragment,
-      viewBindingClazz: Class<T>
-    ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
-      fragment = fragment,
-      viewBindingClazz = viewBindingClazz
-    )
-  }
 }

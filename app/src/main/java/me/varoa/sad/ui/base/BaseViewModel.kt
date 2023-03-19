@@ -9,19 +9,19 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import me.varoa.sad.ui.base.BaseEvent.ShowErrorMessage
 
 abstract class BaseViewModel : ViewModel() {
-  private val eventChannel = Channel<BaseEvent>(Channel.BUFFERED)
-  val events: Flow<BaseEvent> = eventChannel.receiveAsFlow()
+    private val eventChannel = Channel<BaseEvent>(Channel.BUFFERED)
+    val events: Flow<BaseEvent> = eventChannel.receiveAsFlow()
 
-  protected suspend fun sendNewEvent(event: BaseEvent) {
-    eventChannel.send(event)
-  }
+    protected suspend fun sendNewEvent(event: BaseEvent) {
+        eventChannel.send(event)
+    }
 
-  protected suspend fun showErrorMessage(message: String?) {
-    eventChannel.send(ShowErrorMessage(message ?: ""))
-  }
+    protected suspend fun showErrorMessage(message: String?) {
+        eventChannel.send(ShowErrorMessage(message ?: ""))
+    }
 
-  override fun onCleared() {
-    super.onCleared()
-    viewModelScope.cancel()
-  }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
+    }
 }

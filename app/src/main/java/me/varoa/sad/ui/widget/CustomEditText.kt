@@ -8,40 +8,41 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
 
 class CustomEditText : AppCompatEditText {
-  lateinit var validator: (str: CharSequence?) -> Boolean
-  @StringRes var errorMessageId: Int = 0
+    lateinit var validator: (str: CharSequence?) -> Boolean
 
-  constructor(context: Context) : super(context) {
-    init()
-  }
+    @StringRes var errorMessageId: Int = 0
 
-  constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-    init()
-  }
+    constructor(context: Context) : super(context) {
+        init()
+    }
 
-  constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-    context,
-    attrs,
-    defStyleAttr
-  ) {
-    init()
-  }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init()
+    }
 
-  private fun init() {
-    addTextChangedListener(object : TextWatcher {
-      override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        // do nothing
-      }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init()
+    }
 
-      override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if (validator(s)) {
-          error = context.getString(errorMessageId)
-        }
-      }
+    private fun init() {
+        addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // do nothing
+            }
 
-      override fun afterTextChanged(s: Editable?) {
-        // do nothing
-      }
-    })
-  }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (validator(s)) {
+                    error = context.getString(errorMessageId)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // do nothing
+            }
+        })
+    }
 }

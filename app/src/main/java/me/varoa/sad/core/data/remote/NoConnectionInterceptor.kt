@@ -14,48 +14,48 @@ import java.net.InetSocketAddress
 import java.net.Socket
 
 class NoConnectionInterceptor(
-  private val context: Context
+    private val context: Context
 ) : Interceptor {
-  companion object {
-    private const val TIMEOUT_DURATION = 1500
-    private const val DEFAULT_PORT = 53
-  }
-
-  override fun intercept(chain: Chain): Response {
-    if (!isConnectionOn() || !isInternetAvailable()) {
-      throw NoInternetException()
+    companion object {
+        private const val TIMEOUT_DURATION = 1500
+        private const val DEFAULT_PORT = 53
     }
-    return chain.proceed(chain.request())
-  }
 
-  private fun isConnectionOn(): Boolean {
-    val connectivityManager =
-      context.getSystemService(Context.CONNECTIVITY_SERVICE) as
-        ConnectivityManager
-
-    val network = connectivityManager.activeNetwork
-    val connection =
-      connectivityManager.getNetworkCapabilities(network)
-
-    return connection != null && (
-      connection.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-        connection.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-      )
-  }
-
-  private fun isInternetAvailable(): Boolean {
-    return try {
-      val timeoutMs = TIMEOUT_DURATION
-      val sock = Socket()
-      val sockaddr = InetSocketAddress("8.8.8.8", DEFAULT_PORT)
-
-      sock.connect(sockaddr, timeoutMs)
-      sock.close()
-
-      true
-    } catch (e: IOException) {
-      logcat { e.asLog() }
-      false
+    override fun intercept(chain: Chain): Response {
+        if (!isConnectionOn() || !isInternetAvailable()) {
+            throw NoInternetException()
+        }
+        return chain.proceed(chain.request())
     }
-  }
+
+    private fun isConnectionOn(): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as
+                ConnectivityManager
+
+        val network = connectivityManager.activeNetwork
+        val connection =
+            connectivityManager.getNetworkCapabilities(network)
+
+        return connection != null && (
+            connection.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                connection.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+            )
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        return try {
+            val timeoutMs = TIMEOUT_DURATION
+            val sock = Socket()
+            val sockaddr = InetSocketAddress("8.8.8.8", DEFAULT_PORT)
+
+            sock.connect(sockaddr, timeoutMs)
+            sock.close()
+
+            true
+        } catch (e: IOException) {
+            logcat { e.asLog() }
+            false
+        }
+    }
 }

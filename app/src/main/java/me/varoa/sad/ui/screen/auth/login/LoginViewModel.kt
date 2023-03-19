@@ -12,19 +12,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-  private val auth: AuthRepository
+    private val auth: AuthRepository
 ) : BaseViewModel() {
-  fun onLogin(data: Auth) {
-    viewModelScope.launch {
-      auth.login(data)
-        .catch { showErrorMessage(it.message) }
-        .collect { result ->
-          if (result.isSuccess) {
-            sendNewEvent(AuthEvent.LoginSuccess)
-          } else {
-            showErrorMessage(result.exceptionOrNull()?.message)
-          }
+    fun onLogin(data: Auth) {
+        viewModelScope.launch {
+            auth.login(data)
+                .catch { showErrorMessage(it.message) }
+                .collect { result ->
+                    if (result.isSuccess) {
+                        sendNewEvent(AuthEvent.LoginSuccess)
+                    } else {
+                        showErrorMessage(result.exceptionOrNull()?.message)
+                    }
+                }
         }
     }
-  }
 }

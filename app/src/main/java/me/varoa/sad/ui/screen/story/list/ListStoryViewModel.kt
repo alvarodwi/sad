@@ -15,17 +15,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListStoryViewModel @Inject constructor(
-  private val auth: AuthRepository,
-  private val story: StoryRepository
+    private val auth: AuthRepository,
+    private val story: StoryRepository
 ) : BaseViewModel() {
-  val stories: Flow<PagingData<Story>> =
-    story.getStories()
-      .cachedIn(viewModelScope)
+    val stories: Flow<PagingData<Story>> =
+        story.getStories()
+            .cachedIn(viewModelScope)
 
-  fun onLogout() {
-    viewModelScope.launch {
-      auth.logout()
-      sendNewEvent(AuthEvent.LoggedOut)
+    fun onLogout() {
+        viewModelScope.launch {
+            auth.logout()
+            sendNewEvent(AuthEvent.LoggedOut)
+        }
     }
-  }
 }

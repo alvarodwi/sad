@@ -12,19 +12,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStoryViewModel @Inject constructor(
-  private val story: StoryRepository
+    private val story: StoryRepository
 ) : BaseViewModel() {
-  fun onAddStory(data: NewStory) {
-    viewModelScope.launch {
-      story.postNewStory(data)
-        .catch { showErrorMessage(it.message) }
-        .collect { result ->
-          if (result.isSuccess) {
-            sendNewEvent(StoryEvent.StoryAdded)
-          } else {
-            showErrorMessage(result.exceptionOrNull()?.message)
-          }
+    fun onAddStory(data: NewStory) {
+        viewModelScope.launch {
+            story.postNewStory(data)
+                .catch { showErrorMessage(it.message) }
+                .collect { result ->
+                    if (result.isSuccess) {
+                        sendNewEvent(StoryEvent.StoryAdded)
+                    } else {
+                        showErrorMessage(result.exceptionOrNull()?.message)
+                    }
+                }
         }
     }
-  }
 }

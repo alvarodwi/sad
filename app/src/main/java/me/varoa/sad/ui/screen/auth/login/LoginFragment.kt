@@ -25,92 +25,92 @@ import me.varoa.sad.ui.ext.viewBinding
 import me.varoa.sad.ui.screen.auth.AuthEvent
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
-  private val binding by viewBinding<FragmentLoginBinding>()
-  private val viewModel by viewModels<LoginViewModel>()
+    private val binding by viewBinding<FragmentLoginBinding>()
+    private val viewModel by viewModels<LoginViewModel>()
 
-  override fun onStart() {
-    super.onStart()
-    eventJob = viewModel.events
-      .onEach { event ->
-        when (event) {
-          AuthEvent.LoginSuccess -> {
-            toggleLoading(false)
-            findNavController().navigate(LoginFragmentDirections.actionToListStory())
-          }
-          is ShowErrorMessage -> {
-            toggleLoading(false)
-            logcat { "Error : ${event.message}" }
-            snackbar("Error : ${event.message}")
-          }
-        }
-      }.launchIn(viewLifecycleOwner.lifecycleScope)
-  }
-
-  override fun bindView() {
-    binding.edLoginEmail.apply {
-      validator = { str -> !str.isNullOrEmpty() && !Patterns.EMAIL_ADDRESS.matcher(str).matches() }
-      errorMessageId = R.string.err_invalid_email
+    override fun onStart() {
+        super.onStart()
+        eventJob = viewModel.events
+            .onEach { event ->
+                when (event) {
+                    AuthEvent.LoginSuccess -> {
+                        toggleLoading(false)
+                        findNavController().navigate(LoginFragmentDirections.actionToListStory())
+                    }
+                    is ShowErrorMessage -> {
+                        toggleLoading(false)
+                        logcat { "Error : ${event.message}" }
+                        snackbar("Error : ${event.message}")
+                    }
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    binding.edLoginPassword.apply {
-      validator = { str -> !str.isNullOrEmpty() && str.length < 8 }
-      errorMessageId = R.string.err_invalid_password
-    }
-
-    binding.tvRegister.apply {
-      val span = SpannableString(getString(R.string.lbl_register_now))
-      val clickableSpan = object : ClickableSpan() {
-        override fun onClick(widget: View) {
-          findNavController().navigate(LoginFragmentDirections.actionToRegister())
+    override fun bindView() {
+        binding.edLoginEmail.apply {
+            validator = { str -> !str.isNullOrEmpty() && !Patterns.EMAIL_ADDRESS.matcher(str).matches() }
+            errorMessageId = R.string.err_invalid_email
         }
 
-        override fun updateDrawState(ds: TextPaint) {
-          super.updateDrawState(ds)
-          ds.isUnderlineText = false
+        binding.edLoginPassword.apply {
+            validator = { str -> !str.isNullOrEmpty() && str.length < 8 }
+            errorMessageId = R.string.err_invalid_password
         }
-      }
-      span.setSpan(
-        clickableSpan,
-        span.indexOf('?') + 2,
-        span.lastIndex,
-        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-      )
-      text = span
-      movementMethod = LinkMovementMethod.getInstance()
-      highlightColor = Color.TRANSPARENT
+
+        binding.tvRegister.apply {
+            val span = SpannableString(getString(R.string.lbl_register_now))
+            val clickableSpan = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    findNavController().navigate(LoginFragmentDirections.actionToRegister())
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.isUnderlineText = false
+                }
+            }
+            span.setSpan(
+                clickableSpan,
+                span.indexOf('?') + 2,
+                span.lastIndex,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            text = span
+            movementMethod = LinkMovementMethod.getInstance()
+            highlightColor = Color.TRANSPARENT
+        }
+
+        binding.btnLogin.setOnClickListener {
+            if (
+                binding.edLoginEmail.text.toString().isEmpty() ||
+                binding.edLoginPassword.text.toString().isEmpty()
+            ) {
+                snackbar(getString(R.string.err_input_empty))
+                return@setOnClickListener
+            }
+
+            if (
+                !binding.edLoginEmail.error.isNullOrEmpty() ||
+                !binding.edLoginPassword.error.isNullOrEmpty()
+            ) {
+                snackbar(getString(R.string.err_input_error))
+                return@setOnClickListener
+            }
+            hideKeyboard()
+            onLoginClicked()
+        }
     }
 
-    binding.btnLogin.setOnClickListener {
-      if (
-        binding.edLoginEmail.text.toString().isEmpty() ||
-        binding.edLoginPassword.text.toString().isEmpty()
-      ) {
-        snackbar(getString(R.string.err_input_empty))
-        return@setOnClickListener
-      }
-
-      if (
-        !binding.edLoginEmail.error.isNullOrEmpty() ||
-        !binding.edLoginPassword.error.isNullOrEmpty()
-      ) {
-        snackbar(getString(R.string.err_input_error))
-        return@setOnClickListener
-      }
-      hideKeyboard()
-      onLoginClicked()
+    private fun onLoginClicked() {
+        toggleLoading(true)
+        val data = Auth(
+            email = binding.edLoginEmail.text.toString(),
+            password = binding.edLoginPassword.text.toString()
+        )
+        viewModel.onLogin(data)
     }
-  }
 
-  private fun onLoginClicked() {
-    toggleLoading(true)
-    val data = Auth(
-      email = binding.edLoginEmail.text.toString(),
-      password = binding.edLoginPassword.text.toString()
-    )
-    viewModel.onLogin(data)
-  }
-
-  private fun toggleLoading(isVisible: Boolean) {
-    binding.loadingIndicator.isVisible = isVisible
-  }
+    private fun toggleLoading(isVisible: Boolean) {
+        binding.loadingIndicator.isVisible = isVisible
+    }
 }

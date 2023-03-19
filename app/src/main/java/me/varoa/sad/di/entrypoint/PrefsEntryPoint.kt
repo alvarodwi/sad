@@ -8,8 +8,8 @@ import me.varoa.sad.core.data.prefs.DataStoreManager
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface PrefsEntryPoint {
-  /**
-   * @return
-   */
-  fun prefs(): DataStoreManager
+    /**
+     * @return
+     */
+    fun prefs(): DataStoreManager
 }

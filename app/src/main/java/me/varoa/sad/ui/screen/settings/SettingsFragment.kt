@@ -18,71 +18,71 @@ import me.varoa.sad.ui.ext.toggleAppTheme
 import me.varoa.sad.ui.ext.viewBinding
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
-  private val binding by viewBinding<FragmentSettingsBinding>()
+    private val binding by viewBinding<FragmentSettingsBinding>()
 
-  private val container get() = binding.settingsContainer
-  private val toolbar get() = binding.toolbar
+    private val container get() = binding.settingsContainer
+    private val toolbar get() = binding.toolbar
 
-  override fun bindView() {
-    toolbar.title = getString(R.string.lbl_settings)
-    toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+    override fun bindView() {
+        toolbar.title = getString(R.string.lbl_settings)
+        toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
 
-    childFragmentManager.commit {
-      replace(container.id, SettingsContainer())
-    }
-  }
-
-  class SettingsContainer : PreferenceFragmentCompat() {
-    private val mActivity get() = requireActivity()
-    private val prefs
-      get() = EntryPointAccessors.fromApplication(
-        requireContext(),
-        PrefsEntryPoint::class.java
-      ).prefs()
-
-    override fun onCreatePreferences(
-      savedInstanceState: Bundle?,
-      rootKey: String?
-    ) {
-      val screen = preferenceManager.createPreferenceScreen(mActivity)
-      preferenceScreen = screen
-      setupPreferenceScreen(screen)
-    }
-
-    private fun setupPreferenceScreen(screen: PreferenceScreen) = with(screen) {
-      setTitle(R.string.lbl_settings)
-
-      // language
-      preference {
-        titleRes = R.string.prefs_language
-        summary = resources.configuration.locales.get(0).displayName
-        onClick {
-          startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+        childFragmentManager.commit {
+            replace(container.id, SettingsContainer())
         }
-      }
-
-      // app theme
-      stringListPreference(activity) {
-        key = Keys.THEME_KEY.name
-        titleRes = R.string.prefs_theme
-        entriesRes = listOf(
-          R.string.prefs_theme_light,
-          R.string.prefs_theme_dark,
-          R.string.prefs_theme_system
-        )
-        entryValues = listOf(
-          AppTheme.LIGHT.name,
-          AppTheme.DARK.name,
-          AppTheme.SYSTEM.name
-        )
-        defaultValue = AppTheme.SYSTEM.name
-
-        onChange {
-          toggleAppTheme(it as String)
-          mActivity.recreate()
-          true
-        }
-      }
     }
-  }
+
+    class SettingsContainer : PreferenceFragmentCompat() {
+        private val mActivity get() = requireActivity()
+        private val prefs
+            get() = EntryPointAccessors.fromApplication(
+                requireContext(),
+                PrefsEntryPoint::class.java
+            ).prefs()
+
+        override fun onCreatePreferences(
+            savedInstanceState: Bundle?,
+            rootKey: String?
+        ) {
+            val screen = preferenceManager.createPreferenceScreen(mActivity)
+            preferenceScreen = screen
+            setupPreferenceScreen(screen)
+        }
+
+        private fun setupPreferenceScreen(screen: PreferenceScreen) = with(screen) {
+            setTitle(R.string.lbl_settings)
+
+            // language
+            preference {
+                titleRes = R.string.prefs_language
+                summary = resources.configuration.locales.get(0).displayName
+                onClick {
+                    startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                }
+            }
+
+            // app theme
+            stringListPreference(activity) {
+                key = Keys.THEME_KEY.name
+                titleRes = R.string.prefs_theme
+                entriesRes = listOf(
+                    R.string.prefs_theme_light,
+                    R.string.prefs_theme_dark,
+                    R.string.prefs_theme_system
+                )
+                entryValues = listOf(
+                    AppTheme.LIGHT.name,
+                    AppTheme.DARK.name,
+                    AppTheme.SYSTEM.name
+                )
+                defaultValue = AppTheme.SYSTEM.name
+
+                onChange {
+                    toggleAppTheme(it as String)
+                    mActivity.recreate()
+                    true
+                }
+            }
+        }
+    }
 }

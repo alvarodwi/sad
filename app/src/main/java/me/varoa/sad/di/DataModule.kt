@@ -25,70 +25,69 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-  companion object {
-    const val DEFAULT_TIMEOUT = 5L
+    companion object {
+        const val DEFAULT_TIMEOUT = 5L
 
-    private const val BASE_URL = "https://story-api.dicoding.dev/v1/"
-  }
-
-  private val json = Json {
-    ignoreUnknownKeys = true
-    isLenient = true
-  }
-
-  @Singleton
-  @Provides
-  fun provideNoConnectionInterceptor(
-    @ApplicationContext appContext: Context
-  ): NoConnectionInterceptor =
-    NoConnectionInterceptor(appContext)
-
-  @Singleton
-  @Provides
-  fun provideHttpClient(netConn: NoConnectionInterceptor): OkHttpClient {
-    val builder = OkHttpClient.Builder()
-      .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
-      .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
-      .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
-
-    // logging
-    if (BuildConfig.DEBUG) {
-      logcat { "Applying HTTP Logging" }
-      val logger = HttpLoggingInterceptor { message ->
-        logcat("API") { message }
-      }.apply {
-        level = HttpLoggingInterceptor.Level.BASIC
-      }
-      builder.addInterceptor(logger)
+        private const val BASE_URL = "https://story-api.dicoding.dev/v1/"
     }
 
-    // detect internet connection
-    builder.addInterceptor(netConn)
-    return builder
-      .build()
-  }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
 
-  @ExperimentalSerializationApi
-  @Singleton
-  @Provides
-  fun provideJsonConverterFactory(): Converter.Factory {
-    return json.asConverterFactory("application/json".toMediaType())
-  }
+    @Singleton
+    @Provides
+    fun provideNoConnectionInterceptor(
+        @ApplicationContext appContext: Context
+    ): NoConnectionInterceptor =
+        NoConnectionInterceptor(appContext)
 
-  @Singleton
-  @Provides
-  fun provideStoryApiService(client: OkHttpClient, factory: Converter.Factory): StoryApiService {
-    val retrofit = Retrofit.Builder()
-      .baseUrl(BASE_URL)
-      .client(client)
-      .addConverterFactory(factory)
-      .build()
-    return retrofit.create(StoryApiService::class.java)
-  }
+    @Singleton
+    @Provides
+    fun provideHttpClient(netConn: NoConnectionInterceptor): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
+            .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
+            .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
 
+        // logging
+        if (BuildConfig.DEBUG) {
+            logcat { "Applying HTTP Logging" }
+            val logger = HttpLoggingInterceptor { message ->
+                logcat("API") { message }
+            }.apply {
+                level = HttpLoggingInterceptor.Level.BASIC
+            }
+            builder.addInterceptor(logger)
+        }
 
-  @Singleton
-  @Provides
-  fun provideAppPreferences(@ApplicationContext appContext: Context): DataStoreManager =
-    DataStoreManager(appContext)
+        // detect internet connection
+        builder.addInterceptor(netConn)
+        return builder
+            .build()
+    }
+
+    @ExperimentalSerializationApi
+    @Singleton
+    @Provides
+    fun provideJsonConverterFactory(): Converter.Factory {
+        return json.asConverterFactory("application/json".toMediaType())
+    }
+
+    @Singleton
+    @Provides
+    fun provideStoryApiService(client: OkHttpClient, factory: Converter.Factory): StoryApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(factory)
+            .build()
+        return retrofit.create(StoryApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppPreferences(@ApplicationContext appContext: Context): DataStoreManager =
+        DataStoreManager(appContext)
 }

@@ -14,29 +14,29 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
-  @Inject protected lateinit var imageLoader: ImageLoader
-  protected lateinit var eventJob: Job
+    @Inject protected lateinit var imageLoader: ImageLoader
+    protected lateinit var eventJob: Job
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    bindView()
-  }
-
-  abstract fun bindView()
-
-  override fun onStop() {
-    super.onStop()
-    if (this::eventJob.isInitialized) {
-      eventJob.cancel()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindView()
     }
-  }
 
-  protected fun hideKeyboard() {
-    try {
-      val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-      imm.hideSoftInputFromWindow(requireView().windowToken, 0)
-    } catch (e: Exception) {
-      logcat { e.message.toString() }
+    abstract fun bindView()
+
+    override fun onStop() {
+        super.onStop()
+        if (this::eventJob.isInitialized) {
+            eventJob.cancel()
+        }
     }
-  }
+
+    protected fun hideKeyboard() {
+        try {
+            val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+        } catch (e: Exception) {
+            logcat { e.message.toString() }
+        }
+    }
 }

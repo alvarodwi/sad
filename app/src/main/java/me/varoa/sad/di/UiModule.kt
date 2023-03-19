@@ -13,13 +13,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class UiModule {
-  @Singleton
-  @Provides
-  fun provideCoilLoader(
-    @ApplicationContext context: Context,
-    client: OkHttpClient
-  ) = ImageLoader.Builder(context)
-    .okHttpClient(client)
-    .crossfade(true)
-    .build()
+    @Singleton
+    @Provides
+    fun provideCoilLoader(
+        @ApplicationContext context: Context,
+        client: OkHttpClient
+    ) = ImageLoader.Builder(context)
+        .okHttpClient(client)
+        .crossfade(true)
+        .build()
 }

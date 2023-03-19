@@ -5,7 +5,7 @@ import me.varoa.sad.core.data.remote.json.StoryJson
 
 @Serializable
 data class StoryResponseJson(
-  val error: Boolean,
-  val message: String,
-  val story: StoryJson,
+    val error: Boolean,
+    val message: String,
+    val story: StoryJson
 )

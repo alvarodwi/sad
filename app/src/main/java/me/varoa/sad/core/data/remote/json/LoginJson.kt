@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginJson(
-  val userId : String,
-  val name : String,
-  val token: String,
+    val userId: String,
+    val name: String,
+    val token: String
 )

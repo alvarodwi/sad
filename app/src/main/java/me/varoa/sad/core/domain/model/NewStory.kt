@@ -3,8 +3,8 @@ package me.varoa.sad.core.domain.model
 import java.io.File
 
 data class NewStory(
-  val description: String,
-  val photo: File,
-  val lat: Float? = null,
-  val lon: Float? = null,
+    val description: String,
+    val photo: File,
+    val lat: Float? = null,
+    val lon: Float? = null
 )

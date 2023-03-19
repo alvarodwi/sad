@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GenericResponseJson(
-  val error: Boolean,
-  val message: String,
+    val error: Boolean,
+    val message: String
 )

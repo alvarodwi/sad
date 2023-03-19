@@ -26,13 +26,13 @@
   <string name="lbl_register">Daftar</string>
   <string name="lbl_register_now">Belum punya akun? Daftar</string>
   <string name="lbl_settings">Pengaturan</string>
-  <string name="subtitle_login">Gunakan akun Dicoding Story Anda</string>
-  <string name="subtitle_register">Buat akun pada Dicoding  Story</string>
-  <string name="title_add_story">Tambah Cerita</string>
-  <string name="title_detail_story">Detail Cerita</string>
   <string name="prefs_language">Ganti bahasa</string>
   <string name="prefs_theme">Tema aplikasi</string>
   <string name="prefs_theme_dark">Gelap</string>
   <string name="prefs_theme_light">Terang</string>
   <string name="prefs_theme_system">Mengikuti sistem</string>
+  <string name="subtitle_login">Gunakan akun Dicoding Story Anda</string>
+  <string name="subtitle_register">Buat akun pada Dicoding  Story</string>
+  <string name="title_add_story">Tambah Cerita</string>
+  <string name="title_detail_story">Detail Cerita</string>
 </resources>

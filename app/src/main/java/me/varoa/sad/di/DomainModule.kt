@@ -12,9 +12,9 @@ import me.varoa.sad.core.domain.repository.StoryRepository
 @Module
 @InstallIn(ViewModelComponent::class)
 interface DomainModule {
-  @Binds
-  fun authRepository(repo: AuthRepositoryImpl): AuthRepository
+    @Binds
+    fun authRepository(repo: AuthRepositoryImpl): AuthRepository
 
-  @Binds
-  fun storyRepository(repo: StoryRepositoryImpl): StoryRepository
+    @Binds
+    fun storyRepository(repo: StoryRepositoryImpl): StoryRepository
 }
