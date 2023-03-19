@@ -91,6 +91,10 @@ dependencies {
   // data
   implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+  // settings
+  implementation("androidx.preference:preference-ktx:1.2.0")
+  implementation("com.afollestad.material-dialogs:core:3.3.0")
+
   // networking
   implementation("com.squareup.retrofit2:retrofit:2.9.0")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")

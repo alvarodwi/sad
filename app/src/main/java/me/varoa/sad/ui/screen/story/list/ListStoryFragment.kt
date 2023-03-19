@@ -114,7 +114,9 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
       this.setOnMenuItemClickListener { menuItem ->
         when (menuItem.itemId) {
           R.id.action_settings -> {
-            // navigate to settings
+            findNavController().navigate(
+              ListStoryFragmentDirections.actionToSettings()
+            )
             true
           }
           R.id.action_logout -> {

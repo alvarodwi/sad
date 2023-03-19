@@ -1,6 +1,7 @@
 package me.varoa.sad.core.data.prefs
 
 import android.content.Context
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -14,14 +15,17 @@ class DataStoreManager(
 ) {
   private val prefsDataStore = appContext.dataStore
 
+  suspend fun setString(key: Preferences.Key<String>, value: String) {
+    prefsDataStore.edit { prefs -> prefs[key] = value }
+  }
+
+  fun getString(key: Preferences.Key<String>, default: String = ""): Flow<String?> =
+    prefsDataStore.data.map { it[key] ?: default }
+
   // theme
   val theme
     get() = prefsDataStore.data.map { prefs ->
-      when (prefs[Keys.THEME_KEY]) {
-        AppTheme.DARK.name -> AppTheme.DARK
-        AppTheme.LIGHT.name -> AppTheme.LIGHT
-        else -> AppTheme.SYSTEM
-      }
+      prefs[Keys.THEME_KEY] ?: AppTheme.SYSTEM.name
     }
 
   suspend fun setTheme(flag: AppTheme) {

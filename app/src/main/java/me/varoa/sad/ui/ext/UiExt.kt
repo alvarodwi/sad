@@ -29,12 +29,12 @@ fun Fragment.snackbar(
   createSnackbar(message, duration).apply { setAnchorView(anchorView) }.show()
 }
 
-fun toggleAppTheme(value: AppTheme) {
+fun toggleAppTheme(value: String) {
   AppCompatDelegate.setDefaultNightMode(
     when (value) {
-      AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-      AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-      AppTheme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+      AppTheme.LIGHT.name -> AppCompatDelegate.MODE_NIGHT_NO
+      AppTheme.DARK.name -> AppCompatDelegate.MODE_NIGHT_YES
+      else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
   )
 }
