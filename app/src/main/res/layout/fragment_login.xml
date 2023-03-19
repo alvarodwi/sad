@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context=".ui.screen.auth.login.LoginFragment">
+
+  <com.google.android.material.progressindicator.LinearProgressIndicator
+    android:id="@+id/loading_indicator"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:indeterminate="true"
+    android:visibility="invisible" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginTop="12dp"
+    >
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="@string/lbl_login"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      android:text="@string/subtitle_login"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
+
+    <com.google.android.material.divider.MaterialDivider
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginVertical="12dp" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="@string/lbl_email"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
+
+    <me.varoa.sad.ui.widget.CustomEditText
+      android:id="@+id/ed_login_email"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textEmailAddress" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="@string/lbl_password"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
+
+    <me.varoa.sad.ui.widget.CustomEditText
+      android:id="@+id/ed_login_password"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textPassword" />
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btn_login"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="@string/lbl_login" />
+
+    <TextView
+      android:id="@+id/tv_register"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      tools:text="Don't have an account yet? Register" />
+
+  </LinearLayout>
+</FrameLayout>

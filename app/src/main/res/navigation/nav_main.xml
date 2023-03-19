@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/nav_main">
+  <fragment
+    android:id="@+id/login"
+    android:name="me.varoa.sad.ui.screen.auth.login.LoginFragment"
+    android:label="fragment_login"
+    tools:layout="@layout/fragment_login">
+    <action
+      android:id="@+id/action_to_register"
+      app:destination="@id/register" />
+
+    <action
+      android:id="@+id/action_to_list_story"
+      app:destination="@id/list_story"
+      app:popUpTo="@id/nav_main"
+      app:popUpToInclusive="true" />
+  </fragment>
+  <fragment
+    android:id="@+id/register"
+    android:name="me.varoa.sad.ui.screen.auth.register.RegisterFragment"
+    android:label="fragment_register"
+    tools:layout="@layout/fragment_register" />
+  <fragment
+    android:id="@+id/list_story"
+    android:name="me.varoa.sad.ui.screen.story.list.ListStoryFragment"
+    android:label="fragment_list_story"
+    tools:layout="@layout/fragment_list_story">
+    <action
+      android:id="@+id/action_to_login"
+      app:destination="@id/login"
+      app:popUpTo="@id/nav_main"
+      app:popUpToInclusive="true" />
+    <action
+      android:id="@+id/action_to_add_story"
+      app:destination="@id/add_story" />
+    <action
+      android:id="@+id/action_to_detail_story"
+      app:destination="@id/detail_story" />
+  </fragment>
+  <fragment
+    android:id="@+id/detail_story"
+    android:name="me.varoa.sad.ui.screen.story.detail.DetailStoryFragment"
+    android:label="detail_story"
+    tools:layout="@layout/fragment_detail_story">
+    <argument
+      android:name="story"
+      app:argType="me.varoa.sad.ui.parcelable.ParcelableStory" />
+  </fragment>
+  <fragment
+    android:id="@+id/add_story"
+    android:name="me.varoa.sad.ui.screen.story.add.AddStoryFragment"
+    android:label="add_story"
+    tools:layout="@layout/fragment_add_story" />
+</navigation>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center"
+  android:background="?android:colorBackground"
+  android:orientation="vertical">
+
+  <TextView
+    android:id="@+id/tv_emoji"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="96sp"
+    tools:text="🙏" />
+
+  <TextView
+    android:id="@+id/tv_message"
+    style="?textAppearanceSubtitle1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:textAlignment="center"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+    tools:text="Something went wrong" />
+</LinearLayout>
