@@ -54,8 +54,8 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
         // configuring recycler view
         storyAdapter = StoryAdapter(imageLoader) { story, views ->
             val extras = FragmentNavigatorExtras(
-                views[0] to "name",
-                views[1] to "photo"
+                views[0] to "name-${story.id}",
+                views[1] to "photo-${story.id}"
             )
             findNavController().navigate(
                 ListStoryFragmentDirections.actionToDetailStory(story.parcelize()),

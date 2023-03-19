@@ -39,6 +39,7 @@ class StoryAdapter(
             with(binding) {
                 root.setOnClickListener { onClick(data, arrayOf(binding.tvItemName, binding.ivItemPhoto)) }
                 ivItemPhoto.apply {
+                    transitionName = "photo-${data.id}"
                     val imgData = ImageRequest.Builder(this.context)
                         .data(data.photoUrl)
                         .target(this)
@@ -47,7 +48,10 @@ class StoryAdapter(
                         .build()
                     imageLoader.enqueue(imgData)
                 }
-                tvItemName.text = root.context.getString(R.string.lbl_username, data.name)
+                tvItemName.apply {
+                    text = root.context.getString(R.string.lbl_username, data.name)
+                    transitionName = "name-${data.id}"
+                }
             }
         }
     }
