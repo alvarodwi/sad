@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import logcat.logcat
 import me.varoa.sad.R
+import me.varoa.sad.core.data.parcelize
 import me.varoa.sad.databinding.FragmentListStoryBinding
 import me.varoa.sad.ui.adapter.GenericLoadStateAdapter
 import me.varoa.sad.ui.base.BaseEvent.ShowErrorMessage
@@ -63,7 +64,7 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
         views[1] to "photo"
       )
       findNavController().navigate(
-        ListStoryFragmentDirections.actionToDetailStory(story.id),
+        ListStoryFragmentDirections.actionToDetailStory(story.parcelize()),
         extras
       )
     }

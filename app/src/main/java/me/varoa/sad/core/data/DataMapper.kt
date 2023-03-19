@@ -61,3 +61,14 @@ fun Story.parcelize() =
     lat = lat,
     lon = lon
   )
+
+fun ParcelableStory.toModel() =
+  Story(
+    id = id,
+    name = name,
+    description = description,
+    photoUrl = photoUrl,
+    createdAt = createdAt,
+    lat = lat,
+    lon = lon
+  )
