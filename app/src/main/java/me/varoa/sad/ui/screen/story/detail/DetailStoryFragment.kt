@@ -11,6 +11,7 @@ import me.varoa.sad.core.data.toModel
 import me.varoa.sad.core.domain.model.Story
 import me.varoa.sad.databinding.FragmentDetailStoryBinding
 import me.varoa.sad.ui.base.BaseFragment
+import me.varoa.sad.ui.ext.formatDateString
 import me.varoa.sad.ui.ext.snackbar
 import me.varoa.sad.ui.ext.viewBinding
 import me.varoa.sad.ui.parcelable.ParcelableStory
@@ -46,7 +47,10 @@ class DetailStoryFragment : BaseFragment(R.layout.fragment_detail_story) {
   private fun loadStory(story: Story) {
     binding.tvDetailDescription.text = story.description
     binding.tvDetailName.text = getString(R.string.lbl_username, story.name)
-    binding.tvDetailDate.text = getString(R.string.lbl_created_at, story.createdAt)
+    binding.tvDetailDate.text = getString(
+      R.string.lbl_created_at,
+      formatDateString(story.createdAt, "yyyy.MM.dd - HH:mm:ss")
+    )
     binding.ivDetailPhoto.apply {
       val imgData = ImageRequest.Builder(this.context)
         .data(story.photoUrl)

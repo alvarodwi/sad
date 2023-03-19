@@ -53,5 +53,11 @@
     android:id="@+id/add_story"
     android:name="me.varoa.sad.ui.screen.story.add.AddStoryFragment"
     android:label="add_story"
-    tools:layout="@layout/fragment_add_story" />
+    tools:layout="@layout/fragment_add_story">
+    <action
+      android:id="@+id/action_to_list_story"
+      app:destination="@id/list_story"
+      app:popUpTo="@id/list_story"
+      app:popUpToInclusive="true" />
+  </fragment>
 </navigation>

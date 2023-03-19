@@ -50,12 +50,6 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
       }.launchIn(viewLifecycleOwner.lifecycleScope)
   }
 
-  override fun onResume() {
-    super.onResume()
-    toggleLoading(true)
-    storyAdapter.refresh()
-  }
-
   override fun bindView() {
     // configuring recycler view
     storyAdapter = StoryAdapter(imageLoader) { story, views ->

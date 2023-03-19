@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="btn_add_story">Unggah Cerita</string>
+  <string name="btn_camera">Buka kamera</string>
+  <string name="btn_gallery">Ambil dari galeri</string>
+  <string name="btn_retry">Coba lagi</string>
+  <string name="cd_imageview_photo">Item foto</string>
+  <string name="err_empty_description">Deskripsi tidak boleh kosong</string>
+  <string name="err_empty_list">Tidak ada yang bisa ditampilkan disini</string>
+  <string name="err_empty_picture">Tidak ada foto yang dipilih</string>
+  <string name="err_input_empty">Anda masih memiliki input kosong</string>
+  <string name="err_input_error">Ada error pada input yang Anda masukkan</string>
+  <string name="err_invalid_email">Email address tidak valid</string>
+  <string name="err_invalid_name">Nama tidak boleh kosong</string>
+  <string name="err_invalid_password">Kata sandi harus minimal 8 karakter</string>
+  <string name="hint_add_story_description">Deskripsikan cerita disini</string>
+  <string name="info_logged_out">Sesi berakhir</string>
+  <string name="info_register_success">Pendaftaran berhasil</string>
+  <string name="info_story_added">Cerita berhasil ditambahkan</string>
+  <string name="lbl_choose_picture">Pilih gambar</string>
+  <string name="lbl_created_at">Dibuat pada : %s</string>
+  <string name="lbl_login">Masuk</string>
+  <string name="lbl_logout">Keluar</string>
+  <string name="lbl_name">Nama</string>
+  <string name="lbl_password">Kata Sandi</string>
+  <string name="lbl_register">Daftar</string>
+  <string name="lbl_register_now">Belum punya akun? Daftar</string>
+  <string name="lbl_settings">Pengaturan</string>
+  <string name="subtitle_login">Gunakan akun Dicoding Story Anda</string>
+  <string name="subtitle_register">Buat akun pada Dicoding  Story</string>
+  <string name="title_add_story">Tambah Cerita</string>
+  <string name="title_detail_story">Detail Cerita</string>
+</resources>

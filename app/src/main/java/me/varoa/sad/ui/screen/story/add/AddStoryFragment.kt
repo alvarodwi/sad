@@ -27,6 +27,7 @@ import me.varoa.sad.ui.ext.snackbar
 import me.varoa.sad.ui.ext.uriToFile
 import me.varoa.sad.ui.ext.viewBinding
 import me.varoa.sad.ui.screen.story.StoryEvent
+import me.varoa.sad.ui.screen.story.list.ListStoryFragmentDirections
 import java.io.File
 
 class AddStoryFragment : BaseFragment(R.layout.fragment_add_story) {
@@ -42,7 +43,9 @@ class AddStoryFragment : BaseFragment(R.layout.fragment_add_story) {
         when (event) {
           is StoryEvent.StoryAdded -> {
             snackbar(getString(R.string.info_story_added))
-            findNavController().popBackStack()
+            findNavController().navigate(
+              AddStoryFragmentDirections.actionToListStory()
+            )
           }
           is ShowErrorMessage -> {
             logcat { "Error : ${event.message}" }

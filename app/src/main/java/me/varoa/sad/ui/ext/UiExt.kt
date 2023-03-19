@@ -1,13 +1,12 @@
 package me.varoa.sad.ui.ext
 
-import android.app.Application
-import android.graphics.Bitmap
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import me.varoa.sad.R
-import java.io.File
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private fun Fragment.createSnackbar(
@@ -40,3 +39,7 @@ fun toggleAppTheme(value: AppTheme) {
   )
 }
 
+fun formatDateString(dateString: String, pattern: String) =
+  DateTimeFormatter.ofPattern(pattern, Locale.getDefault()).format(
+    LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME)
+  )
