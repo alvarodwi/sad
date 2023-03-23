@@ -9,6 +9,6 @@ data class StoryJson(
     val description: String,
     val photoUrl: String,
     val createdAt: String,
-    val lat: Float? = null,
-    val lon: Float? = null
+    val lat: Double? = null,
+    val lon: Double? = null
 )

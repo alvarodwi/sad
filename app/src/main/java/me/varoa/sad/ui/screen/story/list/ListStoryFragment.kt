@@ -118,6 +118,12 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
         binding.bottomAppBar.apply {
             this.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
+                    R.id.action_maps -> {
+                        findNavController().navigate(
+                            ListStoryFragmentDirections.actionToMaps()
+                        )
+                        true
+                    }
                     R.id.action_settings -> {
                         findNavController().navigate(
                             ListStoryFragmentDirections.actionToSettings()

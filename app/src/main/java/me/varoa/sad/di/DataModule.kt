@@ -62,6 +62,7 @@ class DataModule {
             builder.addInterceptor(logger)
         }
 
+
         // detect internet connection
         builder.addInterceptor(netConn)
         return builder

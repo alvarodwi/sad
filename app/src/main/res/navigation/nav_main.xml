@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/nav_main">
+  android:id="@+id/nav_main"
+  >
   <fragment
     android:id="@+id/login"
     android:name="me.varoa.sad.ui.screen.auth.login.LoginFragment"
@@ -40,6 +41,9 @@
       android:id="@+id/action_to_detail_story"
       app:destination="@id/detail_story" />
     <action
+      android:id="@+id/action_to_maps"
+      app:destination="@id/maps" />
+    <action
       android:id="@+id/action_to_settings"
       app:destination="@id/settings" />
   </fragment>
@@ -67,4 +71,13 @@
     android:id="@+id/settings"
     android:name="me.varoa.sad.ui.screen.settings.SettingsFragment"
     android:label="SettingsFragment" />
+  <fragment
+    android:id="@+id/maps"
+    android:name="me.varoa.sad.ui.screen.maps.MapsFragment"
+    android:label="maps"
+    tools:layout="@layout/fragment_maps">
+    <action
+      android:id="@+id/action_to_detail_story"
+      app:destination="@id/detail_story" />
+  </fragment>
 </navigation>

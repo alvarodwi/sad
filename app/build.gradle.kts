@@ -6,6 +6,7 @@ plugins {
   id("kotlin-parcelize")
   id("androidx.navigation.safeargs.kotlin")
   id("dagger.hilt.android.plugin")
+  id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -90,6 +91,10 @@ dependencies {
 
   // data
   implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+  // gms
+  implementation("com.google.android.gms:play-services-maps:18.1.0")
+  implementation("com.google.android.gms:play-services-location:21.0.1")
 
   // settings
   implementation("androidx.preference:preference-ktx:1.2.0")

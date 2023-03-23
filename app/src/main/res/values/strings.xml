@@ -37,4 +37,13 @@
   <string name="subtitle_register">Create your account on Dicoding Story</string>
   <string name="title_add_story">Add Story</string>
   <string name="title_detail_story">Story Detail</string>
+  <string name="lbl_maps">Maps</string>
+  <string name="title_maps">Story Location</string>
+  <string name="btn_load_more">Load More</string>
+  <string name="info_location_permission_granted">Location permission granted</string>
+  <string name="info_location_permission_rejected">Location permission rejected</string>
+  <string name="dialog_location_permission_needed_title">Location permission needed</string>
+  <string name="dialog_location_permission_needed_message">This feature needs the Location permission, please accept to use location functionality</string>
+  <string name="err_location_not_found">Location not found</string>
+  <string name="info_end_of_pagination">No more data loaded</string>
 </resources>

@@ -38,25 +38,11 @@ interface StoryApiService {
         @Query("location") location: Int = 0
     ): Response<ListStoryResponseJson>
 
-    @GET("stories/{id}")
-    suspend fun getStoryDetail(
-        @Header("Authorization") auth: String,
-        @Path("id") id: String
-    ): Response<StoryResponseJson>
-
     @JvmSuppressWildcards
     @Multipart
     @POST("stories")
     suspend fun postNewStory(
         @Header("Authorization") auth: String,
-        @PartMap map: Map<String, RequestBody>,
-        @Part photo: MultipartBody.Part
-    ): Response<GenericResponseJson>
-
-    @JvmSuppressWildcards
-    @Multipart
-    @POST("stories/guest")
-    suspend fun postNewStory(
         @PartMap map: Map<String, RequestBody>,
         @Part photo: MultipartBody.Part
     ): Response<GenericResponseJson>

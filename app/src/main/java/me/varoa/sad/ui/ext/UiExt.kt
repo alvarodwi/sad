@@ -1,7 +1,10 @@
 package me.varoa.sad.ui.ext
 
+import android.content.pm.PackageManager
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDateTime
@@ -28,6 +31,13 @@ fun Fragment.snackbar(
     createSnackbar(message, duration).apply { setAnchorView(anchorView) }.show()
 }
 
+fun Fragment.toast(
+    message: String,
+    duration: Int = Toast.LENGTH_SHORT
+) {
+    Toast.makeText(requireContext(),message,duration).show()
+}
+
 fun toggleAppTheme(value: String) {
     AppCompatDelegate.setDefaultNightMode(
         when (value) {
@@ -38,7 +48,13 @@ fun toggleAppTheme(value: String) {
     )
 }
 
-fun formatDateString(dateString: String, pattern: String) =
+fun formatDateString(dateString: String, pattern: String): String =
     DateTimeFormatter.ofPattern(pattern, Locale.getDefault()).format(
         LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME)
     )
+
+fun Fragment.checkPermission(permission: String): Boolean =
+    ContextCompat.checkSelfPermission(
+        requireActivity(),
+        permission
+    ) == PackageManager.PERMISSION_GRANTED
