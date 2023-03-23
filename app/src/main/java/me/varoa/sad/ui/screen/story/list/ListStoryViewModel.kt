@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListStoryViewModel @Inject constructor(
     private val auth: AuthRepository,
-    private val story: StoryRepository
+    story: StoryRepository
 ) : BaseViewModel() {
     val stories: Flow<PagingData<Story>> =
         story.getStories()

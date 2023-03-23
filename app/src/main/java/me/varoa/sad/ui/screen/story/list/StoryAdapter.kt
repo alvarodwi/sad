@@ -17,9 +17,9 @@ import me.varoa.sad.ui.screen.story.list.StoryAdapter.UserViewHolder
 class StoryAdapter(
     private val imageLoader: ImageLoader,
     private val onClick: (Story, Array<View>) -> Unit
-) : PagingDataAdapter<Story, UserViewHolder>(USER_DIFF) {
+) : PagingDataAdapter<Story, UserViewHolder>(STORY_DIFF) {
     companion object {
-        val USER_DIFF = object : DiffUtil.ItemCallback<Story>() {
+        val STORY_DIFF = object : DiffUtil.ItemCallback<Story>() {
             override fun areItemsTheSame(
                 oldItem: Story,
                 newItem: Story
