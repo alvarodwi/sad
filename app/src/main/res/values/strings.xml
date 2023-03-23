@@ -41,9 +41,11 @@
   <string name="title_maps">Story Location</string>
   <string name="btn_load_more">Load More</string>
   <string name="info_location_permission_granted">Location permission granted</string>
-  <string name="info_location_permission_rejected">Location permission rejected</string>
   <string name="dialog_location_permission_needed_title">Location permission needed</string>
-  <string name="dialog_location_permission_needed_message">This feature needs the Location permission, please accept to use location functionality</string>
+  <string name="dialog_location_permission_needed_message">This feature needs the location permission, please accept to use location functionality</string>
   <string name="err_location_not_found">Location not found</string>
   <string name="info_end_of_pagination">No more data loaded</string>
+  <string name="dialog_location_permission_rejected_title">Location permission denied</string>
+  <string name="dialog_location_permission_rejected_message">To use this feature, please grant the location permission from the settings app</string>
+  <string name="cb_location">Add my location to this story</string>
 </resources>

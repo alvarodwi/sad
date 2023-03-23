@@ -35,4 +35,15 @@
   <string name="subtitle_register">Buat akun pada Dicoding  Story</string>
   <string name="title_add_story">Tambah Cerita</string>
   <string name="title_detail_story">Detail Cerita</string>
+  <string name="lbl_maps">Peta</string>
+  <string name="title_maps">Lokasi Cerita</string>
+  <string name="btn_load_more">Muat lagi</string>
+  <string name="info_location_permission_granted">Akses lokasi diberikan</string>
+  <string name="dialog_location_permission_needed_title">Akses lokasi dibutuhkan</string>
+  <string name="dialog_location_permission_needed_message">Fitur ini membutuhkan akses lokasi, tolong berikan akses supaya fitur ini berfungsi</string>
+  <string name="err_location_not_found">Lokasi tidak ditemukan</string>
+  <string name="info_end_of_pagination">Tidak ada lagi data yang dimuat</string>
+  <string name="dialog_location_permission_rejected_title">Akses lokasi ditolak</string>
+  <string name="dialog_location_permission_rejected_message">Untuk menggunakan fitur ini, tolong berikan akses lokasi dari pengaturan aplikasi</string>
+  <string name="cb_location">Tambahkan lokasi saya ke cerita ini</string>
 </resources>

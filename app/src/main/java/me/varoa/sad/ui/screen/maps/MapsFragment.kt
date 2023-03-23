@@ -1,7 +1,10 @@
 package me.varoa.sad.ui.screen.maps
 
 import android.Manifest
+import android.content.Intent
 import android.location.Location
+import android.net.Uri
+import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -142,6 +145,19 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
   }
 
+  private fun onPermissionDenied() {
+    MaterialDialog(requireContext()).show {
+      title(R.string.dialog_location_permission_rejected_title)
+      message(R.string.dialog_location_permission_rejected_message)
+      positiveButton(android.R.string.ok) {
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).also {
+          it.data = Uri.fromParts("package", requireActivity().packageName, null)
+          startActivity(it)
+        }
+      }
+    }
+  }
+
   private val requestLocationPermissionLauncher =
     registerForActivityResult(
       ActivityResultContracts.RequestMultiplePermissions()
@@ -154,7 +170,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
           getCurrentLocation()
         }
         else -> {
-          snackbar(getString(R.string.info_location_permission_rejected))
+          onPermissionDenied()
         }
       }
     }
