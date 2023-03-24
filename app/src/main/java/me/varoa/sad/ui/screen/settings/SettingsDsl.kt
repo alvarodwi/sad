@@ -10,14 +10,14 @@ import me.varoa.sad.ui.widget.preference.StringListDialogPreference
 
 @DslMarker
 @Target(AnnotationTarget.TYPE)
-annotation class SettingsDSL
+annotation class SettingsDsl
 
-inline fun PreferenceGroup.preference(block: (@SettingsDSL Preference).() -> Unit): Preference {
+inline fun PreferenceGroup.preference(block: (@SettingsDsl Preference).() -> Unit): Preference {
     return initThenAdd(Preference(context), block)
 }
 
 inline fun PreferenceGroup.switchPreference(
-    block: (@SettingsDSL SwitchPreferenceCompat).() -> Unit
+    block: (@SettingsDsl SwitchPreferenceCompat).() -> Unit
 ): SwitchPreferenceCompat {
     return initThenAdd(SwitchPreferenceCompat(context), block)
 }
@@ -25,7 +25,7 @@ inline fun PreferenceGroup.switchPreference(
 inline fun PreferenceGroup.stringListPreference(
     activity: Activity?,
     block: (
-        @SettingsDSL
+        @SettingsDsl
         StringListDialogPreference
     ).() -> Unit
 ): StringListDialogPreference {

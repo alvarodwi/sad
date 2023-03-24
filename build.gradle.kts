@@ -1,6 +1,7 @@
 plugins {
   id("com.github.ben-manes.versions") version "0.46.0"
   id("org.jmailen.kotlinter") version "3.13.0"
+  id("io.gitlab.arturbosch.detekt").version("1.22.0")
 
   id("com.android.application") version "7.4.2" apply false
   id("com.android.library") version "7.4.2" apply false
@@ -20,6 +21,15 @@ allprojects {
     reporters = arrayOf("checkstyle", "plain")
     experimentalRules = false
     disabledRules = emptyArray()
+  }
+}
+
+subprojects {
+  apply(plugin = "io.gitlab.arturbosch.detekt")
+
+  detekt {
+    config = files("${project.rootDir}/detekt.yml")
+    parallel = true
   }
 }
 
