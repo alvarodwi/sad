@@ -15,33 +15,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapsViewModel @Inject constructor(
-  private val story: StoryRepository
+    private val story: StoryRepository
 ) : BaseViewModel() {
-  private val currentPage = MutableStateFlow(1)
-  private val _stories = MutableStateFlow<List<Story>>(listOf())
-  val stories get() = _stories.asStateFlow()
+    private val currentPage = MutableStateFlow(1)
+    private val _stories = MutableStateFlow<List<Story>>(listOf())
+    val stories get() = _stories.asStateFlow()
 
-  init {
-    onLoadMore()
-  }
-
-  fun onLoadMore() {
-    viewModelScope.launch {
-      val currentStories = _stories.value
-      story.getStoriesWithLocation(currentPage.value)
-        .catch { showErrorMessage(it.message) }
-        .collectLatest { result ->
-          if (result.isSuccess) {
-            val data = result.getOrThrow()
-            if (data.isEmpty()) {
-              sendNewEvent(MapEvent.EndOfPagination)
-            }
-            _stories.emit((currentStories + data).distinct())
-          } else if (result.isFailure)
-            showErrorMessage(result.exceptionOrNull()?.message)
-        }
-      logcat { "mapsData -> page = ${currentPage.value} and totalItems = ${stories.value.size}" }
-      currentPage.emit(currentPage.value.plus(1))
+    init {
+        onLoadMore()
     }
-  }
+
+    fun onLoadMore() {
+        viewModelScope.launch {
+            val currentStories = _stories.value
+            story.getStoriesWithLocation(currentPage.value)
+                .catch { showErrorMessage(it.message) }
+                .collectLatest { result ->
+                    if (result.isSuccess) {
+                        val data = result.getOrThrow()
+                        if (data.isEmpty()) {
+                            sendNewEvent(MapEvent.EndOfPagination)
+                        }
+                        _stories.emit((currentStories + data).distinct())
+                    } else if (result.isFailure) {
+                        showErrorMessage(result.exceptionOrNull()?.message)
+                    }
+                }
+            logcat { "mapsData -> page = ${currentPage.value} and totalItems = ${stories.value.size}" }
+            currentPage.emit(currentPage.value.plus(1))
+        }
+    }
 }

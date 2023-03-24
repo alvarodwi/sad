@@ -25,91 +25,91 @@ import org.junit.Before
 import org.junit.Test
 
 class ListStoryViewModelTest {
-  // yes i know this isn't scalable but I'm only making 1 unit test so why not
-  // https://stackoverflow.com/questions/58303961/kotlin-coroutine-unit-test-fails-with-module-with-the-main-dispatcher-had-faile
-  private val dispatcher = UnconfinedTestDispatcher()
+    // yes i know this isn't scalable but I'm only making 1 unit test so why not
+    // https://stackoverflow.com/questions/58303961/kotlin-coroutine-unit-test-fails-with-module-with-the-main-dispatcher-had-faile
+    private val dispatcher = UnconfinedTestDispatcher()
 
-  @MockK
-  lateinit var auth: AuthRepository
+    @MockK
+    lateinit var auth: AuthRepository
 
-  @MockK
-  lateinit var story: StoryRepository
+    @MockK
+    lateinit var story: StoryRepository
 
-  private lateinit var viewModel: ListStoryViewModel
+    private lateinit var viewModel: ListStoryViewModel
 
-  @Before
-  fun setUp() {
-    MockKAnnotations.init(this)
-    Dispatchers.setMain(dispatcher)
-  }
-
-  @Test
-  fun `fetch story list from api successfully`() = runTest {
-    val dataDummy = DataDummy.generateDummyStories(10)
-    coEvery { story.getStories() } returns flow {
-      emit(TestPagingSource.snapshot(dataDummy))
-    }
-    viewModel = ListStoryViewModel(auth, story)
-    coVerify { story.getStories() }
-
-    val actualPagingData = viewModel.stories
-    val differ = AsyncPagingDataDiffer(
-      diffCallback = StoryAdapter.STORY_DIFF,
-      updateCallback = noopListUpdateCallback,
-      mainDispatcher = dispatcher,
-      workerDispatcher = dispatcher
-    )
-    actualPagingData.test {
-      differ.submitData(awaitItem())
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+        Dispatchers.setMain(dispatcher)
     }
 
-    advanceUntilIdle()
+    @Test
+    fun `fetch story list from api successfully`() = runTest {
+        val dataDummy = DataDummy.generateDummyStories(10)
+        coEvery { story.getStories() } returns flow {
+            emit(TestPagingSource.snapshot(dataDummy))
+        }
+        viewModel = ListStoryViewModel(auth, story)
+        coVerify { story.getStories() }
 
-    // assert paging data not null
-    Assert.assertNotNull(differ.snapshot())
-    // assert paging data size is the same
-    Assert.assertEquals(dataDummy.size, differ.snapshot().size)
-    // assert first data is the same
-    Assert.assertEquals(dataDummy[0], differ.snapshot()[0])
-  }
+        val actualPagingData = viewModel.stories
+        val differ = AsyncPagingDataDiffer(
+            diffCallback = StoryAdapter.STORY_DIFF,
+            updateCallback = noopListUpdateCallback,
+            mainDispatcher = dispatcher,
+            workerDispatcher = dispatcher
+        )
+        actualPagingData.test {
+            differ.submitData(awaitItem())
+        }
 
-  @Test
-  fun `fetch story list from api returning 0 items`() = runTest {
-    coEvery { story.getStories() } returns flow {
-      emit(TestPagingSource.snapshot(emptyList()))
+        advanceUntilIdle()
+
+        // assert paging data not null
+        Assert.assertNotNull(differ.snapshot())
+        // assert paging data size is the same
+        Assert.assertEquals(dataDummy.size, differ.snapshot().size)
+        // assert first data is the same
+        Assert.assertEquals(dataDummy[0], differ.snapshot()[0])
     }
-    viewModel = ListStoryViewModel(auth, story)
-    coVerify { story.getStories() }
 
-    val actualPagingData = viewModel.stories
-    val differ = AsyncPagingDataDiffer(
-      diffCallback = StoryAdapter.STORY_DIFF,
-      updateCallback = noopListUpdateCallback,
-      mainDispatcher = dispatcher,
-      workerDispatcher = dispatcher
-    )
-    actualPagingData.test {
-      differ.submitData(awaitItem())
+    @Test
+    fun `fetch story list from api returning 0 items`() = runTest {
+        coEvery { story.getStories() } returns flow {
+            emit(TestPagingSource.snapshot(emptyList()))
+        }
+        viewModel = ListStoryViewModel(auth, story)
+        coVerify { story.getStories() }
+
+        val actualPagingData = viewModel.stories
+        val differ = AsyncPagingDataDiffer(
+            diffCallback = StoryAdapter.STORY_DIFF,
+            updateCallback = noopListUpdateCallback,
+            mainDispatcher = dispatcher,
+            workerDispatcher = dispatcher
+        )
+        actualPagingData.test {
+            differ.submitData(awaitItem())
+        }
+
+        advanceUntilIdle()
+
+        // assert paging data not null
+        Assert.assertNotNull(differ.snapshot())
+        // assert paging data size is 0
+        Assert.assertEquals(0, differ.snapshot().size)
     }
 
-    advanceUntilIdle()
+    @After
+    fun tearDown() {
+        unmockkAll()
+        Dispatchers.resetMain()
+    }
 
-    // assert paging data not null
-    Assert.assertNotNull(differ.snapshot())
-    // assert paging data size is 0
-    Assert.assertEquals(0, differ.snapshot().size)
-  }
-
-  @After
-  fun tearDown() {
-    unmockkAll()
-    Dispatchers.resetMain()
-  }
-
-  private val noopListUpdateCallback = object : ListUpdateCallback {
-    override fun onInserted(position: Int, count: Int) {}
-    override fun onRemoved(position: Int, count: Int) {}
-    override fun onMoved(fromPosition: Int, toPosition: Int) {}
-    override fun onChanged(position: Int, count: Int, payload: Any?) {}
-  }
+    private val noopListUpdateCallback = object : ListUpdateCallback {
+        override fun onInserted(position: Int, count: Int) {}
+        override fun onRemoved(position: Int, count: Int) {}
+        override fun onMoved(fromPosition: Int, toPosition: Int) {}
+        override fun onChanged(position: Int, count: Int, payload: Any?) {}
+    }
 }

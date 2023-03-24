@@ -13,9 +13,9 @@ import org.junit.runner.RunWith
 @LargeTest
 @HiltAndroidTest
 class MainActivityTest {
-  @get:Rule
-  var hiltAndroidRule = HiltAndroidRule(this)
+    @get:Rule
+    var hiltAndroidRule = HiltAndroidRule(this)
 
-  @get:Rule
-  val activity = ActivityScenarioRule(MainActivity::class.java)
+    @get:Rule
+    val activity = ActivityScenarioRule(MainActivity::class.java)
 }

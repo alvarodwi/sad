@@ -1,6 +1,5 @@
 package me.varoa.sad.ui.screen.auth.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
