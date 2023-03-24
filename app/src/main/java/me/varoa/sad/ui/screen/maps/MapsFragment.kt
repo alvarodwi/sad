@@ -2,6 +2,7 @@ package me.varoa.sad.ui.screen.maps
 
 import android.Manifest
 import android.content.Intent
+import android.content.res.Resources
 import android.location.Location
 import android.net.Uri
 import android.provider.Settings
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -60,6 +62,18 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     private val callback = OnMapReadyCallback { googleMap ->
         _map = googleMap
+
+        try {
+            _map.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(),
+                    R.raw.custom_map_style
+                )
+            )
+        } catch (e: Resources.NotFoundException) {
+            logcat { "Can't find style. Error: $e" }
+        }
+
         _map.uiSettings.apply {
             isZoomControlsEnabled = true
             isIndoorLevelPickerEnabled = true
