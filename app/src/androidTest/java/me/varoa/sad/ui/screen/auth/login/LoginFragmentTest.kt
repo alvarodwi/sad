@@ -16,7 +16,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.MediumTest
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.varoa.sad.R
@@ -34,9 +33,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
-@MediumTest
 @HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class LoginFragmentTest {
     @get:Rule
     val hiltAndroidRule = HiltAndroidRule(this)
@@ -126,9 +124,6 @@ class LoginFragmentTest {
             .setResponseCode(200)
             .setBody(JsonConverter.readStringFromFile("login_failed_response.json"))
         mockWebServer.enqueue(mockLoginResponse)
-
-        // wait a bit
-        onView(isRoot()).perform(waitFor(2000))
 
         // assert navController hasn't moved from login
         assertThat(navController.currentDestination?.id).isEqualTo(R.id.login)

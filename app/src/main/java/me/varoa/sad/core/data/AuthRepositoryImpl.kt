@@ -1,5 +1,6 @@
 package me.varoa.sad.core.data
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -11,6 +12,7 @@ import me.varoa.sad.core.data.remote.json.response.LoginResponseJson
 import me.varoa.sad.core.domain.model.Auth
 import me.varoa.sad.core.domain.repository.AuthRepository
 import me.varoa.sad.utils.ApiException
+import me.varoa.sad.utils.EspressoIdlingResource
 import me.varoa.sad.utils.NoInternetException
 import javax.inject.Inject
 
@@ -22,7 +24,8 @@ class AuthRepositoryImpl @Inject constructor(
     override fun token(): Flow<String> = prefs.sessionToken
 
     override suspend fun login(data: Auth): Flow<Result<String>> = flow {
-        // wrapEspressoIdlingResource {
+        Log.d("login", "login($data)")
+        EspressoIdlingResource.increment()
         try {
             val response: LoginResponseJson = apiRequest(
                 { api.login(data.toLoginBody()) },
@@ -33,12 +36,15 @@ class AuthRepositoryImpl @Inject constructor(
                 token = response.loginResult.token
             )
             emit(Result.success(response.message))
+            Log.d("login", "emit(${response.loginResult})")
+            EspressoIdlingResource.decrement()
         } catch (ex: ApiException) {
             emit(Result.failure(ex))
+            EspressoIdlingResource.decrement()
         } catch (ex: NoInternetException) {
             emit(Result.failure(ex))
+            EspressoIdlingResource.decrement()
         }
-        // }
     }
 
     override suspend fun logout() {

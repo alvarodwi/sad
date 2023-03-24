@@ -1,4 +1,4 @@
-package me.varoa.sad.utils
+package me.varoa.sad
 
 import android.app.Application
 import android.content.Context
