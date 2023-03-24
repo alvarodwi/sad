@@ -1,5 +1,6 @@
 package me.varoa.sad.core.data
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -11,52 +12,56 @@ import me.varoa.sad.core.data.remote.json.response.LoginResponseJson
 import me.varoa.sad.core.domain.model.Auth
 import me.varoa.sad.core.domain.repository.AuthRepository
 import me.varoa.sad.utils.ApiException
+import me.varoa.sad.utils.EspressoIdlingResource
 import me.varoa.sad.utils.NoInternetException
+import me.varoa.sad.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val api: StoryApiService,
-    private val prefs: DataStoreManager
+  private val api: StoryApiService,
+  private val prefs: DataStoreManager
 ) : AuthRepository, SafeApiRequest() {
-    override fun checkSession(): Flow<Boolean> = prefs.isLoggedIn
-    override fun token(): Flow<String> = prefs.sessionToken
+  override fun checkSession(): Flow<Boolean> = prefs.isLoggedIn
+  override fun token(): Flow<String> = prefs.sessionToken
 
-    override suspend fun login(data: Auth): Flow<Result<String>> = flow {
-        try {
-            val response: LoginResponseJson = apiRequest(
-                { api.login(data.toLoginBody()) },
-                ::decodeErrorJson
-            )
-            prefs.addSession(
-                name = response.loginResult.name,
-                token = response.loginResult.token
-            )
-            emit(Result.success(response.message))
-        } catch (ex: ApiException) {
-            emit(Result.failure(ex))
-        } catch (ex: NoInternetException) {
-            emit(Result.failure(ex))
-        }
+  override suspend fun login(data: Auth): Flow<Result<String>> = flow {
+    // wrapEspressoIdlingResource {
+      try {
+        val response: LoginResponseJson = apiRequest(
+          { api.login(data.toLoginBody()) },
+          ::decodeErrorJson
+        )
+        prefs.addSession(
+          name = response.loginResult.name,
+          token = response.loginResult.token
+        )
+        emit(Result.success(response.message))
+      } catch (ex: ApiException) {
+        emit(Result.failure(ex))
+      } catch (ex: NoInternetException) {
+        emit(Result.failure(ex))
+      }
+    // }
+  }
+
+  override suspend fun logout() {
+    prefs.clearSession()
+  }
+
+  override suspend fun register(data: Auth): Flow<Result<String>> = flow {
+    try {
+      val response = apiRequest(
+        { api.register(data.toRegisterBody()) },
+        ::decodeErrorJson
+      )
+      emit(Result.success(response.message))
+    } catch (ex: ApiException) {
+      emit(Result.failure(ex))
+    } catch (ex: NoInternetException) {
+      emit(Result.failure(ex))
     }
+  }
 
-    override suspend fun logout() {
-        prefs.clearSession()
-    }
-
-    override suspend fun register(data: Auth): Flow<Result<String>> = flow {
-        try {
-            val response = apiRequest(
-                { api.register(data.toRegisterBody()) },
-                ::decodeErrorJson
-            )
-            emit(Result.success(response.message))
-        } catch (ex: ApiException) {
-            emit(Result.failure(ex))
-        } catch (ex: NoInternetException) {
-            emit(Result.failure(ex))
-        }
-    }
-
-    private fun decodeErrorJson(str: String): String =
-        Json.decodeFromString(GenericResponseJson.serializer(), str).message
+  private fun decodeErrorJson(str: String): String =
+    Json.decodeFromString(GenericResponseJson.serializer(), str).message
 }

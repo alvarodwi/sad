@@ -20,7 +20,7 @@ android {
     versionCode = 1
     versionName = "1.0"
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "me.varoa.sad.utils.CustomTestRunner"
   }
 
   buildTypes {
@@ -57,6 +57,10 @@ android {
 
   buildFeatures {
     viewBinding = true
+  }
+
+  testOptions {
+    animationsDisabled = true
   }
 }
 
@@ -118,8 +122,21 @@ dependencies {
   testImplementation("app.cash.turbine:turbine:0.12.1")
 
   // ui testing
+  implementation("androidx.test.espresso:espresso-idling-resource:3.5.1")
+  androidTestImplementation("org.assertj:assertj-core:3.21.0")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+  androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+  androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
   androidTestImplementation("androidx.test.ext:junit:1.1.5")
   androidTestImplementation("androidx.test:runner:1.5.2")
-  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
   androidTestImplementation("androidx.test:rules:1.5.0")
+  androidTestImplementation("androidx.navigation:navigation-testing:2.5.3")
+  debugImplementation("androidx.fragment:fragment-testing:1.5.5")
+  debugImplementation("androidx.test:monitor:1.6.1")
+  androidTestImplementation("com.google.dagger:hilt-android-testing:2.45")
+  kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.45")
+
+  //mock web server
+  androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+  androidTestImplementation("com.squareup.okhttp3:okhttp-tls:4.9.3")
 }
