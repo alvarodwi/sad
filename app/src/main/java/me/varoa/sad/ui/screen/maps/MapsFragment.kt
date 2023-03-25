@@ -86,13 +86,15 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
     override fun bindView() {
-        val mapView = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment
-        mapView.getMapAsync(callback)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.btnLoadMore.setOnClickListener { viewModel.onLoadMore() }
+        with(binding) {
+            val mapView = childFragmentManager.findFragmentById(map.id) as SupportMapFragment
+            mapView.getMapAsync(callback)
+
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+            btnLoadMore.setOnClickListener { viewModel.onLoadMore() }
+        }
     }
 
     private fun loadStoryMarkers() {

@@ -64,6 +64,7 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
         }
         storyAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = storyAdapter.withLoadStateHeaderAndFooter(
@@ -106,35 +107,37 @@ class ListStoryFragment : BaseFragment(R.layout.fragment_list_story) {
                 }
         }
 
-        // configuring swipe refresh layout
-        binding.swipeRefresh.setOnRefreshListener(storyAdapter::refresh)
+        with(binding) {
+            // configuring swipe refresh layout
+            swipeRefresh.setOnRefreshListener(storyAdapter::refresh)
 
-        // configuring fab
-        binding.fabAdd.setOnClickListener {
-            findNavController().navigate(ListStoryFragmentDirections.actionToAddStory())
-        }
+            // configuring fab
+            fabAdd.setOnClickListener {
+                findNavController().navigate(ListStoryFragmentDirections.actionToAddStory())
+            }
 
-        // configuring bottom bar
-        binding.bottomAppBar.apply {
-            this.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_maps -> {
-                        findNavController().navigate(
-                            ListStoryFragmentDirections.actionToMaps()
-                        )
-                        true
+            // configuring bottom bar
+            bottomAppBar.apply {
+                this.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.action_maps -> {
+                            findNavController().navigate(
+                                ListStoryFragmentDirections.actionToMaps()
+                            )
+                            true
+                        }
+                        R.id.action_settings -> {
+                            findNavController().navigate(
+                                ListStoryFragmentDirections.actionToSettings()
+                            )
+                            true
+                        }
+                        R.id.action_logout -> {
+                            viewModel.onLogout()
+                            true
+                        }
+                        else -> true
                     }
-                    R.id.action_settings -> {
-                        findNavController().navigate(
-                            ListStoryFragmentDirections.actionToSettings()
-                        )
-                        true
-                    }
-                    R.id.action_logout -> {
-                        viewModel.onLogout()
-                        true
-                    }
-                    else -> true
                 }
             }
         }

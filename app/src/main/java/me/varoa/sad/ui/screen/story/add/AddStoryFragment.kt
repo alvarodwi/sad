@@ -65,19 +65,20 @@ class AddStoryFragment : BaseFragment(R.layout.fragment_add_story) {
     }
 
     override fun bindView() {
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.btnCamera.setOnClickListener { startCamera() }
-        binding.btnGallery.setOnClickListener { startGallery() }
-        binding.buttonAdd.setOnClickListener { onAddStoryClicked() }
-        binding.cbLocation.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                getCurrentLocation()
-            } else {
-                _location = null
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        with(binding) {
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+            btnCamera.setOnClickListener { startCamera() }
+            btnGallery.setOnClickListener { startGallery() }
+            buttonAdd.setOnClickListener { onAddStoryClicked() }
+            cbLocation.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    getCurrentLocation()
+                } else {
+                    _location = null
+                }
             }
         }
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
     }
 
     private fun onAddStoryClicked() {

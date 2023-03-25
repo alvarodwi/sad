@@ -1,6 +1,5 @@
 package me.varoa.sad.core.data
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -24,7 +23,6 @@ class AuthRepositoryImpl @Inject constructor(
     override fun token(): Flow<String> = prefs.sessionToken
 
     override suspend fun login(data: Auth): Flow<Result<String>> = flow {
-        Log.d("login", "login($data)")
         EspressoIdlingResource.increment()
         try {
             val response: LoginResponseJson = apiRequest(
@@ -36,13 +34,11 @@ class AuthRepositoryImpl @Inject constructor(
                 token = response.loginResult.token
             )
             emit(Result.success(response.message))
-            Log.d("login", "emit(${response.loginResult})")
-            EspressoIdlingResource.decrement()
         } catch (ex: ApiException) {
             emit(Result.failure(ex))
-            EspressoIdlingResource.decrement()
         } catch (ex: NoInternetException) {
             emit(Result.failure(ex))
+        } finally {
             EspressoIdlingResource.decrement()
         }
     }

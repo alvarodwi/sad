@@ -43,6 +43,12 @@ class ListStoryViewModelTest {
         Dispatchers.setMain(dispatcher)
     }
 
+    @After
+    fun tearDown() {
+        unmockkAll()
+        Dispatchers.resetMain()
+    }
+
     @Test
     fun `fetch story list from api successfully`() = runTest {
         val dataDummy = DataDummy.generateDummyStories(10)
@@ -98,12 +104,6 @@ class ListStoryViewModelTest {
         Assert.assertNotNull(differ.snapshot())
         // assert paging data size is 0
         Assert.assertEquals(0, differ.snapshot().size)
-    }
-
-    @After
-    fun tearDown() {
-        unmockkAll()
-        Dispatchers.resetMain()
     }
 
     private val noopListUpdateCallback = object : ListUpdateCallback {

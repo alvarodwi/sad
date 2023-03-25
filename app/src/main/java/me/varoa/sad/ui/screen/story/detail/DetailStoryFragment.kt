@@ -21,35 +21,39 @@ class DetailStoryFragment : BaseFragment(R.layout.fragment_detail_story) {
             TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
         postponeEnterTransition()
 
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.tvDetailName.transitionName = "name-${args.story.id}"
-        binding.ivDetailPhoto.transitionName = "photo-${args.story.id}"
+        with(binding) {
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+            tvDetailName.transitionName = "name-${args.story.id}"
+            ivDetailPhoto.transitionName = "photo-${args.story.id}"
+        }
 
         loadStory(args.story.toModel())
     }
 
     private fun loadStory(story: Story) {
-        binding.tvDetailDescription.text = story.description
-        binding.tvDetailName.text = getString(R.string.lbl_username, story.name)
-        binding.tvDetailDate.text = getString(
-            R.string.lbl_created_at,
-            formatDateString(story.createdAt, "yyyy.MM.dd - HH:mm:ss")
-        )
-        binding.ivDetailPhoto.apply {
-            val imgData = ImageRequest.Builder(this.context)
-                .data(story.photoUrl)
-                .target(this)
-                .allowHardware(true)
-                .listener(
-                    onSuccess = { _, _ ->
-                        startPostponedEnterTransition()
-                    },
-                    onError = { _, _ ->
-                        startPostponedEnterTransition()
-                    }
-                )
-                .build()
-            imageLoader.enqueue(imgData)
+        with(binding) {
+            tvDetailDescription.text = story.description
+            tvDetailName.text = getString(R.string.lbl_username, story.name)
+            tvDetailDate.text = getString(
+                R.string.lbl_created_at,
+                formatDateString(story.createdAt, "yyyy.MM.dd - HH:mm:ss")
+            )
+            ivDetailPhoto.apply {
+                val imgData = ImageRequest.Builder(this.context)
+                    .data(story.photoUrl)
+                    .target(this)
+                    .allowHardware(true)
+                    .listener(
+                        onSuccess = { _, _ ->
+                            startPostponedEnterTransition()
+                        },
+                        onError = { _, _ ->
+                            startPostponedEnterTransition()
+                        }
+                    )
+                    .build()
+                imageLoader.enqueue(imgData)
+            }
         }
     }
 }

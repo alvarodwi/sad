@@ -28,32 +28,21 @@ class DataStoreManager(
             prefs[Keys.THEME_KEY] ?: AppTheme.SYSTEM.name
         }
 
-    suspend fun setTheme(flag: AppTheme) {
-        prefsDataStore.edit { prefs -> prefs[Keys.THEME_KEY] = flag.name }
-    }
-
     // session
     val sessionToken: Flow<String>
         get() = prefsDataStore.data.map { prefs ->
             prefs[Keys.SESSION_TOKEN_KEY] ?: ""
         }
 
-    val sessionName: Flow<String>
-        get() = prefsDataStore.data.map { prefs ->
-            prefs[Keys.SESSION_NAME_KEY] ?: ""
-        }
-
     suspend fun addSession(name: String, token: String) {
         prefsDataStore.edit { prefs ->
             prefs[Keys.SESSION_TOKEN_KEY] = "Bearer $token"
-            prefs[Keys.SESSION_NAME_KEY] = name
         }
     }
 
     suspend fun clearSession() {
         prefsDataStore.edit { prefs ->
             prefs[Keys.SESSION_TOKEN_KEY] = ""
-            prefs[Keys.SESSION_NAME_KEY] = ""
         }
     }
 

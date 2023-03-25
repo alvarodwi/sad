@@ -58,10 +58,6 @@ android {
   buildFeatures {
     viewBinding = true
   }
-
-  testOptions {
-    animationsDisabled = true
-  }
 }
 
 kotlin {

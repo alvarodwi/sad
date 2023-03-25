@@ -3,8 +3,15 @@
   <string name="btn_add_story">Unggah Cerita</string>
   <string name="btn_camera">Buka kamera</string>
   <string name="btn_gallery">Ambil dari galeri</string>
+  <string name="btn_load_more">Muat lagi</string>
   <string name="btn_retry">Coba lagi</string>
+  <string name="cb_location">Tambahkan lokasi saya ke cerita ini</string>
+  <string name="cd_fab_add">Tombol tambah cerita</string>
   <string name="cd_imageview_photo">Item foto</string>
+  <string name="dialog_location_permission_needed_message">Fitur ini membutuhkan akses lokasi, tolong berikan akses supaya fitur ini berfungsi</string>
+  <string name="dialog_location_permission_needed_title">Akses lokasi dibutuhkan</string>
+  <string name="dialog_location_permission_rejected_message">Untuk menggunakan fitur ini, tolong berikan akses lokasi dari pengaturan aplikasi</string>
+  <string name="dialog_location_permission_rejected_title">Akses lokasi ditolak</string>
   <string name="err_empty_description">Deskripsi tidak boleh kosong</string>
   <string name="err_empty_list">Tidak ada yang bisa ditampilkan disini</string>
   <string name="err_empty_picture">Tidak ada foto yang dipilih</string>
@@ -13,7 +20,10 @@
   <string name="err_invalid_email">Email address tidak valid</string>
   <string name="err_invalid_name">Nama tidak boleh kosong</string>
   <string name="err_invalid_password">Kata sandi harus minimal 8 karakter</string>
+  <string name="err_location_not_found">Lokasi tidak ditemukan</string>
   <string name="hint_add_story_description">Deskripsikan cerita disini</string>
+  <string name="info_end_of_pagination">Tidak ada lagi data yang dimuat</string>
+  <string name="info_location_permission_granted">Akses lokasi diberikan</string>
   <string name="info_logged_out">Sesi berakhir</string>
   <string name="info_register_success">Pendaftaran berhasil</string>
   <string name="info_story_added">Cerita berhasil ditambahkan</string>
@@ -21,6 +31,7 @@
   <string name="lbl_created_at">Dibuat pada : %s</string>
   <string name="lbl_login">Masuk</string>
   <string name="lbl_logout">Keluar</string>
+  <string name="lbl_maps">Peta</string>
   <string name="lbl_name">Nama</string>
   <string name="lbl_password">Kata Sandi</string>
   <string name="lbl_register">Daftar</string>
@@ -35,15 +46,5 @@
   <string name="subtitle_register">Buat akun pada Dicoding  Story</string>
   <string name="title_add_story">Tambah Cerita</string>
   <string name="title_detail_story">Detail Cerita</string>
-  <string name="lbl_maps">Peta</string>
   <string name="title_maps">Lokasi Cerita</string>
-  <string name="btn_load_more">Muat lagi</string>
-  <string name="info_location_permission_granted">Akses lokasi diberikan</string>
-  <string name="dialog_location_permission_needed_title">Akses lokasi dibutuhkan</string>
-  <string name="dialog_location_permission_needed_message">Fitur ini membutuhkan akses lokasi, tolong berikan akses supaya fitur ini berfungsi</string>
-  <string name="err_location_not_found">Lokasi tidak ditemukan</string>
-  <string name="info_end_of_pagination">Tidak ada lagi data yang dimuat</string>
-  <string name="dialog_location_permission_rejected_title">Akses lokasi ditolak</string>
-  <string name="dialog_location_permission_rejected_message">Untuk menggunakan fitur ini, tolong berikan akses lokasi dari pengaturan aplikasi</string>
-  <string name="cb_location">Tambahkan lokasi saya ke cerita ini</string>
 </resources>

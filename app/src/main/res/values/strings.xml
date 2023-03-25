@@ -3,8 +3,15 @@
   <string name="btn_add_story">Upload Story</string>
   <string name="btn_camera">Open camera</string>
   <string name="btn_gallery">Pick from gallery</string>
+  <string name="btn_load_more">Load More</string>
   <string name="btn_retry">Retry</string>
+  <string name="cb_location">Add my location to this story</string>
+  <string name="cd_fab_add">Button Add Story</string>
   <string name="cd_imageview_photo">Item Photo</string>
+  <string name="dialog_location_permission_needed_message">This feature needs the location permission, please accept to use location functionality</string>
+  <string name="dialog_location_permission_needed_title">Location permission needed</string>
+  <string name="dialog_location_permission_rejected_message">To use this feature, please grant the location permission from the settings app</string>
+  <string name="dialog_location_permission_rejected_title">Location permission denied</string>
   <string name="err_empty_description">Description should not be empty</string>
   <string name="err_empty_list">There is nothing to show</string>
   <string name="err_empty_picture">No picture selected</string>
@@ -13,7 +20,10 @@
   <string name="err_invalid_email">Invalid email address</string>
   <string name="err_invalid_name">Name must not be empty</string>
   <string name="err_invalid_password">Password must be at least 8 characters</string>
+  <string name="err_location_not_found">Location not found</string>
   <string name="hint_add_story_description">Describe your story here</string>
+  <string name="info_end_of_pagination">No more data loaded</string>
+  <string name="info_location_permission_granted">Location permission granted</string>
   <string name="info_logged_out">Session ended</string>
   <string name="info_register_success">Registered successfully</string>
   <string name="info_story_added">Story added successfully</string>
@@ -22,6 +32,7 @@
   <string name="lbl_email" translatable="false">Email</string>
   <string name="lbl_login">Login</string>
   <string name="lbl_logout">Logout</string>
+  <string name="lbl_maps">Maps</string>
   <string name="lbl_name">Name</string>
   <string name="lbl_password">Password</string>
   <string name="lbl_register">Register</string>
@@ -37,15 +48,5 @@
   <string name="subtitle_register">Create your account on Dicoding Story</string>
   <string name="title_add_story">Add Story</string>
   <string name="title_detail_story">Story Detail</string>
-  <string name="lbl_maps">Maps</string>
   <string name="title_maps">Story Location</string>
-  <string name="btn_load_more">Load More</string>
-  <string name="info_location_permission_granted">Location permission granted</string>
-  <string name="dialog_location_permission_needed_title">Location permission needed</string>
-  <string name="dialog_location_permission_needed_message">This feature needs the location permission, please accept to use location functionality</string>
-  <string name="err_location_not_found">Location not found</string>
-  <string name="info_end_of_pagination">No more data loaded</string>
-  <string name="dialog_location_permission_rejected_title">Location permission denied</string>
-  <string name="dialog_location_permission_rejected_message">To use this feature, please grant the location permission from the settings app</string>
-  <string name="cb_location">Add my location to this story</string>
 </resources>

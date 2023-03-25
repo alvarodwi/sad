@@ -1,21 +1,18 @@
 package me.varoa.sad.ui.screen.auth.login
 
-import android.view.View
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.varoa.sad.R
@@ -26,7 +23,6 @@ import me.varoa.sad.utils.launchFragmentInHiltContainer
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -35,6 +31,7 @@ import org.junit.runner.RunWith
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
+@MediumTest
 class LoginFragmentTest {
     @get:Rule
     val hiltAndroidRule = HiltAndroidRule(this)
@@ -78,7 +75,6 @@ class LoginFragmentTest {
         // perform login
         onView(withId(R.id.ed_login_email)).perform(clearText(), typeText("test@mail.id"))
         onView(withId(R.id.ed_login_password)).perform(clearText(), typeText("test123456"))
-        onView(withId(R.id.btn_login)).perform(click())
 
         // mock success response
         val mockLoginResponse = MockResponse()
@@ -86,8 +82,7 @@ class LoginFragmentTest {
             .setBody(JsonConverter.readStringFromFile("login_success_response.json"))
         mockWebServer.enqueue(mockLoginResponse)
 
-        // wait a bit
-        onView(isRoot()).perform(waitFor(2000))
+        onView(withId(R.id.btn_login)).perform(click())
 
         // assert navController has moved into list story
         assertThat(navController.currentDestination?.id).isEqualTo(R.id.list_story)
@@ -117,7 +112,6 @@ class LoginFragmentTest {
         // perform login
         onView(withId(R.id.ed_login_email)).perform(clearText(), typeText("test@mail.id"))
         onView(withId(R.id.ed_login_password)).perform(clearText(), typeText("wrongpassword"))
-        onView(withId(R.id.btn_login)).perform(click())
 
         // mock success response
         val mockLoginResponse = MockResponse()
@@ -125,17 +119,9 @@ class LoginFragmentTest {
             .setBody(JsonConverter.readStringFromFile("login_failed_response.json"))
         mockWebServer.enqueue(mockLoginResponse)
 
+        onView(withId(R.id.btn_login)).perform(click())
+
         // assert navController hasn't moved from login
         assertThat(navController.currentDestination?.id).isEqualTo(R.id.login)
-    }
-
-    private fun waitFor(delay: Long): ViewAction? {
-        return object : ViewAction {
-            override fun getConstraints(): Matcher<View> = isRoot()
-            override fun getDescription(): String = "wait for $delay milliseconds"
-            override fun perform(uiController: UiController, v: View?) {
-                uiController.loopMainThreadForAtLeast(delay)
-            }
-        }
     }
 }

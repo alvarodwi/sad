@@ -47,57 +47,60 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     override fun bindView() {
-        binding.edLoginEmail.apply {
-            validator = { str -> !str.isNullOrEmpty() && !Patterns.EMAIL_ADDRESS.matcher(str).matches() }
-            errorMessageId = R.string.err_invalid_email
-        }
+        with(binding) {
+            edLoginEmail.apply {
+                validator =
+                    { str -> !str.isNullOrEmpty() && !Patterns.EMAIL_ADDRESS.matcher(str).matches() }
+                errorMessageId = R.string.err_invalid_email
+            }
 
-        binding.edLoginPassword.apply {
-            validator = { str -> !str.isNullOrEmpty() && str.length < 8 }
-            errorMessageId = R.string.err_invalid_password
-        }
+            edLoginPassword.apply {
+                validator = { str -> !str.isNullOrEmpty() && str.length < 8 }
+                errorMessageId = R.string.err_invalid_password
+            }
 
-        binding.tvRegister.apply {
-            val span = SpannableString(getString(R.string.lbl_register_now))
-            val clickableSpan = object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    findNavController().navigate(LoginFragmentDirections.actionToRegister())
+            tvRegister.apply {
+                val span = SpannableString(getString(R.string.lbl_register_now))
+                val clickableSpan = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        findNavController().navigate(LoginFragmentDirections.actionToRegister())
+                    }
+
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        ds.isUnderlineText = false
+                    }
+                }
+                span.setSpan(
+                    clickableSpan,
+                    span.indexOf('?') + 2,
+                    span.lastIndex,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                text = span
+                movementMethod = LinkMovementMethod.getInstance()
+                highlightColor = Color.TRANSPARENT
+            }
+
+            btnLogin.setOnClickListener {
+                if (
+                    edLoginEmail.text.toString().isEmpty() ||
+                    edLoginPassword.text.toString().isEmpty()
+                ) {
+                    snackbar(getString(R.string.err_input_empty))
+                    return@setOnClickListener
                 }
 
-                override fun updateDrawState(ds: TextPaint) {
-                    super.updateDrawState(ds)
-                    ds.isUnderlineText = false
+                if (
+                    !edLoginEmail.error.isNullOrEmpty() ||
+                    !edLoginPassword.error.isNullOrEmpty()
+                ) {
+                    snackbar(getString(R.string.err_input_error))
+                    return@setOnClickListener
                 }
+                hideKeyboard()
+                onLoginClicked()
             }
-            span.setSpan(
-                clickableSpan,
-                span.indexOf('?') + 2,
-                span.lastIndex,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            text = span
-            movementMethod = LinkMovementMethod.getInstance()
-            highlightColor = Color.TRANSPARENT
-        }
-
-        binding.btnLogin.setOnClickListener {
-            if (
-                binding.edLoginEmail.text.toString().isEmpty() ||
-                binding.edLoginPassword.text.toString().isEmpty()
-            ) {
-                snackbar(getString(R.string.err_input_empty))
-                return@setOnClickListener
-            }
-
-            if (
-                !binding.edLoginEmail.error.isNullOrEmpty() ||
-                !binding.edLoginPassword.error.isNullOrEmpty()
-            ) {
-                snackbar(getString(R.string.err_input_error))
-                return@setOnClickListener
-            }
-            hideKeyboard()
-            onLoginClicked()
         }
     }
 
